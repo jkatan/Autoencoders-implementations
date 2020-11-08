@@ -102,6 +102,22 @@ public class NeuralNetwork {
         return currentInputs;
     }
 
+    public List<Double> forwardPropagateAtStartingLayer(List<Double> initialInputs, int startingPropagationLayerIndex) {
+        List<Double> currentInputs = initialInputs;
+        int currentLayerIndex = 0;
+        for (List<Neuron> layer : this.neuralNetwork) {
+            if (currentLayerIndex >= startingPropagationLayerIndex) {
+                List<Double> nextInputs = new ArrayList<>();
+                for (Neuron neuron : layer) {
+                    nextInputs.add(neuron.activate(currentInputs));
+                }
+                currentInputs = nextInputs;
+            }
+            currentLayerIndex += 1;
+        }
+        return currentInputs;
+    }
+
     // This performs a forward propagation using the given inputs, and returns the outputs of the neurons on the latent space
     public List<Double> testAutoencoderLatentSpace(List<Double> inputs) {
         List<Double> currentInputs = inputs;
