@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FontDatasetManager {
     // The dimensions of each pattern are 7x5
@@ -45,6 +48,37 @@ public class FontDatasetManager {
         }
 
         return fontsRepresentations;
+    }
+
+    public List<List<Double>> getFontsRepresentationsWithRandomNoise(int amountOfRandomPixelsToFlip) {
+        List<List<Double>> fontsRepresentationsWithNoise = new ArrayList<>();
+        Random random =  new Random();
+        for (int[] letter : FONT_DATASET) {
+           List<Double> letterRepresentation = getLetterRepresentation(letter);
+            List<Double> noisyLetter = addNoiseToLetter(letterRepresentation, amountOfRandomPixelsToFlip);
+           fontsRepresentationsWithNoise.add(noisyLetter);
+        }
+
+        return fontsRepresentationsWithNoise;
+    }
+
+    public List<Double> addNoiseToLetter(List<Double> letterRepresentation, int amountOfRandomPixelsToFlip) {
+        List<Double> noisyLetter = new ArrayList<>(letterRepresentation);
+        Random random = new Random();
+        random.ints(amountOfRandomPixelsToFlip, 0, noisyLetter.size()).distinct().
+            forEach((randIndex) -> {
+                flipLetterPixel(noisyLetter, randIndex);
+            });
+        return noisyLetter;
+    }
+
+    private void flipLetterPixel(List<Double> letterToModify, int pixelIndexToFlip) {
+        Double letterPixel = letterToModify.get(pixelIndexToFlip);
+        if (letterPixel == 1.0) {
+            letterToModify.set(pixelIndexToFlip, 0.0);
+        } else {
+            letterToModify.set(pixelIndexToFlip, 1.0);
+        }
     }
 
     public List<Double> getLetterRepresentation(int[] letterBitmap) {

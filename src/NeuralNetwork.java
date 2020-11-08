@@ -12,16 +12,14 @@ public class NeuralNetwork {
     private Integer consistentErrorDecrementTimes;
     private final Integer epochsRequiredToChangeEta;
     private final Double deltaEta;
-    private final int latentSpaceLayerIndex;
 
-    public NeuralNetwork(Double alphaMomentum, Integer epochsToChangeEta, Double deltaEta, int latentSpaceLayerIndex) {
+    public NeuralNetwork(Double alphaMomentum, Integer epochsToChangeEta, Double deltaEta) {
         this.neuralNetwork = new ArrayList<>();
         this.alphaMomentum = alphaMomentum;
         this.epochsRequiredToChangeEta = epochsToChangeEta;
         this.deltaEta = deltaEta;
         this.consistentErrorDecrementTimes = 0;
         this.consistentErrorIncrementTimes = 0;
-        this.latentSpaceLayerIndex = latentSpaceLayerIndex;
     }
 
     public void addLayer(int neuronsAmount, int previousLayerNeuronsAmount) {
@@ -119,7 +117,7 @@ public class NeuralNetwork {
     }
 
     // This performs a forward propagation using the given inputs, and returns the outputs of the neurons on the latent space
-    public List<Double> testAutoencoderLatentSpace(List<Double> inputs) {
+    public List<Double> testAutoencoderLatentSpace(List<Double> inputs, int latentSpaceLayerIndex) {
         List<Double> currentInputs = inputs;
         int layerIndex = 0;
         for (List<Neuron> layer : this.neuralNetwork) {

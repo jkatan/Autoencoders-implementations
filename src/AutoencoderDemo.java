@@ -12,7 +12,7 @@ public class AutoencoderDemo {
         List<List<Double>> trainRepresentations = fontsRepresentations.subList(0, 10);
 
         // Training an autoencoder to represent each font in 2 dimensions
-        NeuralNetwork neuralNetwork = new NeuralNetwork(0.8, 20, 0.005, 1);
+        NeuralNetwork neuralNetwork = new NeuralNetwork(0.8, 20, 0.005);
         neuralNetwork.addLayer(25, 35); // Encoder 1st layer
         neuralNetwork.addLayer(2, 25); // Latent code
         neuralNetwork.addLayer(25, 2); // Decoder 1st layer
@@ -34,7 +34,7 @@ public class AutoencoderDemo {
             System.out.println(testOutput);
             fontManager.displayLetterRepresentation(testOutput);
 
-            List<Double> latentSpaceOutput = neuralNetwork.testAutoencoderLatentSpace(fontRepr);
+            List<Double> latentSpaceOutput = neuralNetwork.testAutoencoderLatentSpace(fontRepr, 1);
             latentSpacePoints.add(latentSpaceOutput);
 
             writer.write(String.valueOf(latentSpaceOutput.get(0)));
