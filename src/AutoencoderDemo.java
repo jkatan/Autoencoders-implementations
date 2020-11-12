@@ -12,13 +12,13 @@ public class AutoencoderDemo {
         List<List<Double>> trainRepresentations = fontsRepresentations.subList(0, 10);
 
         // Training an autoencoder to represent each font in 2 dimensions
-        NeuralNetwork neuralNetwork = new NeuralNetwork(0.8, 20, 0.005);
+        NeuralNetwork neuralNetwork = new NeuralNetwork(0.85, 5, 0.005);
         neuralNetwork.addLayer(25, 35); // Encoder 1st layer
         neuralNetwork.addLayer(2, 25); // Latent code
         neuralNetwork.addLayer(25, 2); // Decoder 1st layer
         neuralNetwork.addLayer(35, 25); // Output layer
 
-        neuralNetwork.train(trainRepresentations, trainRepresentations, 0.01, 5.0);
+        neuralNetwork.train(trainRepresentations, trainRepresentations, 0.01, 4.0);
 
         // Write results to a file so we can plot the latent space in a 2D-plane
         List<List<Double>> latentSpacePoints = new ArrayList<>();
