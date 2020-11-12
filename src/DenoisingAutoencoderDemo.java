@@ -5,7 +5,7 @@ public class DenoisingAutoencoderDemo {
     public static void main(String[] args) {
         FontDatasetManager fontManager = new FontDatasetManager();
         List<List<Double>> originalFontsRepresentations = fontManager.getFontsRepresentations().subList(0, 25);
-        List<List<Double>> fontsRepresentationsWithNoise = fontManager.getFontsRepresentationsWithRandomNoise(2).subList(0, 25);
+        List<List<Double>> fontsRepresentationsWithNoise = fontManager.getFontsRepresentationsWithRandomNoise(5).subList(0, 25);
         for (int i = 0; i < originalFontsRepresentations.size(); i++) {
             System.out.println("__________");
             System.out.println("Original font representation:");
@@ -28,20 +28,23 @@ public class DenoisingAutoencoderDemo {
         neuralNetwork.addLayer(25, 15); // Decoder 2nd layer
 
         neuralNetwork.addLayer(35, 25); // Output layer
-        neuralNetwork.train(fontsRepresentationsWithNoise, originalFontsRepresentations, 0.01, 0.2);
+        neuralNetwork.train(fontsRepresentationsWithNoise, originalFontsRepresentations, 0.01, 0.7);
 
         // Testing the "denoising" capacity of the network
         for (List<Double> originalFont : originalFontsRepresentations) {
             System.out.println("Letter without noise: ");
             fontManager.displayLetterRepresentation(originalFont);
+            System.out.println(originalFont);
 
-            List<Double> noisyLetter = fontManager.addNoiseToLetter(originalFont, 2);
+            List<Double> noisyLetter = fontManager.addNoiseToLetter(originalFont, 15);
             System.out.println("Letter with noise: ");
             fontManager.displayLetterRepresentation(noisyLetter);
+            System.out.println(noisyLetter);
 
             List<Double> denoisedOutput = neuralNetwork.forwardPropagate(noisyLetter);
             System.out.println("Network output after denoising letter: ");
             fontManager.displayLetterRepresentation(denoisedOutput);
+            System.out.println(denoisedOutput);
         }
     }
 }
