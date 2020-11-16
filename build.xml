@@ -1,0 +1,41 @@
+<project>
+    <target name="clean">
+        <delete dir="build"/>
+        <delete file="ej1a.jar"/>
+        <delete file="ej1b.jar"/>
+        <delete file="ej2.jar"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+
+    <target name="jar">
+        <jar destfile="ej1a.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="AutoencoderDemo"/>
+            </manifest>
+        </jar>
+        <jar destfile="ej1b.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="DenoisingAutoencoderDemo"/>
+            </manifest>
+        </jar>
+        <jar destfile="ej2.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="ej2Demo"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run-ej1-a">
+        <java jar="ej1a.jar" fork="true"/>
+    </target>
+    <target name="run-ej1-b">
+        <java jar="ej1b.jar" fork="true"/>
+    </target>
+    <target name="run-ej2">
+        <java jar="ej2.jar" fork="true"/>
+    </target>
+</project>
